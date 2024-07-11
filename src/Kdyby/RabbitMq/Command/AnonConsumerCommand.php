@@ -5,18 +5,23 @@ declare(strict_types = 1);
 namespace Kdyby\RabbitMq\Command;
 
 use Kdyby\RabbitMq\AnonymousConsumer;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class AnonConsumerCommand extends \Kdyby\RabbitMq\Command\BaseConsumerCommand
 {
+	private const NAME = 'rabbitmq:anon-consumer';
+
+	private const DESCRIPTION = 'Starts an anonymouse configured consumer';
 
 	protected function configure(): void
 	{
 		parent::configure();
 
-		$this->setName('rabbitmq:anon-consumer');
-		$this->setDescription('Starts an anonymouse configured consumer');
+		$this->setName(self::NAME);
+		$this->setDescription(self::DESCRIPTION);
 
 		$this->getDefinition()->getOption('messages')->setDefault(1);
 		$this->getDefinition()->getOption('route')->setDefault('#');

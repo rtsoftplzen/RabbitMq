@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+COMPOSER_VERSION=2.5.4
+
+function composer_run() {
+	eval $(ssh-agent); \
+		docker run --rm --interactive --tty \
+		--volume "$PWD":/app \
+		--volume "$SSH_AUTH_SOCK":/ssh-auth.sock \
+		--volume "${COMPOSER_HOME:-$HOME/.composer}":/tmp \
+		--volume /etc/passwd:/etc/passwd:ro \
+		--volume /etc/group:/etc/group:ro \
+		--user $(id -u):$(id -g) \
+		--env SSH_AUTH_SOCK=/ssh-auth.sock \
+		composer:$COMPOSER_VERSION "$@"
+}
+
+composer_run "$@" --ignore-platform-reqs

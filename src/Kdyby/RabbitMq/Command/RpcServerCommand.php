@@ -4,13 +4,18 @@ declare(strict_types = 1);
 
 namespace Kdyby\RabbitMq\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class RpcServerCommand extends \Symfony\Component\Console\Command\Command
 {
+	private const NAME = 'rabbitmq:rpc-server';
+
+	private const DESCRIPTION = 'Starts a configured RPC server';
 
 	/**
 	 * @inject
@@ -21,8 +26,8 @@ class RpcServerCommand extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('rabbitmq:rpc-server')
-			->setDescription('Starts a configured RPC server')
+			->setName(self::NAME)
+			->setDescription(self::DESCRIPTION)
 			->addArgument('name', InputArgument::REQUIRED, 'Server Name')
 			->addOption('messages', 'm', InputOption::VALUE_OPTIONAL, 'Messages to consume', 0)
 			->addOption('debug', 'd', InputOption::VALUE_OPTIONAL, 'Debug mode', FALSE);

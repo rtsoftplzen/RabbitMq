@@ -5,12 +5,17 @@ declare(strict_types = 1);
 namespace Kdyby\RabbitMq\Command;
 
 use Kdyby\RabbitMq\DI\RabbitMqExtension;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class SetupFabricCommand extends \Symfony\Component\Console\Command\Command
 {
+	private const NAME = 'rabbitmq:setup-fabric';
+
+	private const DESCRIPTION = 'Sets up the Rabbit MQ fabric';
 
 	/**
 	 * @inject
@@ -21,8 +26,8 @@ class SetupFabricCommand extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('rabbitmq:setup-fabric')
-			->setDescription('Sets up the Rabbit MQ fabric')
+			->setName(self::NAME)
+			->setDescription(self::DESCRIPTION)
 			->addOption('debug', 'd', InputOption::VALUE_NONE, 'Enable Debugging');
 	}
 

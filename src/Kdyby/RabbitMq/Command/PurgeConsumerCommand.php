@@ -4,13 +4,18 @@ declare(strict_types = 1);
 
 namespace Kdyby\RabbitMq\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class PurgeConsumerCommand extends \Symfony\Component\Console\Command\Command
 {
+    private const NAME = 'rabbitmq:purge';
+
+    private const DESCRIPTION = 'Purges all messages in queue associated with given consumer';
 
 	/**
 	 * @inject
@@ -21,8 +26,8 @@ class PurgeConsumerCommand extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('rabbitmq:purge')
-			->setDescription('Purges all messages in queue associated with given consumer')
+			->setName(self::NAME)
+			->setDescription(self::DESCRIPTION)
 			->addArgument('name', InputArgument::REQUIRED, 'Consumer Name')
 			->addOption('no-confirmation', NULL, InputOption::VALUE_NONE, 'Whether it must be confirmed before purging');
 	}

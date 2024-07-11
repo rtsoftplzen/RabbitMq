@@ -4,13 +4,18 @@ declare(strict_types = 1);
 
 namespace Kdyby\RabbitMq\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class StdInProducerCommand extends \Symfony\Component\Console\Command\Command
 {
+	private const NAME = 'rabbitmq:stdin-producer';
+
+	private const DESCRIPTION = 'Creates message from given STDIN and passes it to configured producer';
 
 	/**
 	 * @inject
@@ -21,8 +26,8 @@ class StdInProducerCommand extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('rabbitmq:stdin-producer')
-			->setDescription('Creates message from given STDIN and passes it to configured producer')
+			->setName(self::NAME)
+			->setDescription(self::DESCRIPTION)
 			->addArgument('name', InputArgument::REQUIRED, 'Producer Name')
 			->addOption('debug', 'd', InputOption::VALUE_OPTIONAL, 'Enable Debugging', FALSE);
 	}
