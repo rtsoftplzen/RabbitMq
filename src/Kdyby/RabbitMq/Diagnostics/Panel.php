@@ -15,6 +15,7 @@ namespace Kdyby\RabbitMq\Diagnostics;
 use Kdyby\RabbitMq\Connection;
 use Nette\Utils\Html;
 use Tracy\Debugger;
+use Tracy\Helpers;
 
 /**
  * @property callable $begin
@@ -102,9 +103,7 @@ class Panel implements \Tracy\IBarPanel
 
 		\ob_start();
 		// phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
-		$esc = \class_exists('Nette\Templating\Helpers')
-			? ['Nette\Templating\Helpers', 'escapeHtml']
-			: ['Latte\Runtime\Filters', 'escapeHtml'];
+		$esc = [Helpers::class, 'escapeHtml'];
 		// phpcs:disable SlevomatCodingStandard.Variables.UnusedVariable.UnusedVariable
 		$click = \class_exists('\Tracy\Dumper')
 			? static function ($o, $c = FALSE) {

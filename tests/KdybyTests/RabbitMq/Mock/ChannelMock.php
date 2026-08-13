@@ -12,26 +12,8 @@ class ChannelMock extends \Kdyby\RabbitMq\Channel
 	 */
 	public $calls = [];
 
-	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName
-	protected function channel_alert($args)
-	{
-		$this->calls[] = [__FUNCTION__] + \get_defined_vars();
-		parent::channel_alert($args);
-	}
-
-	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName
-	protected function channel_close($args)
-	{
-		$this->calls[] = [__FUNCTION__] + \get_defined_vars();
-		parent::channel_close($args);
-	}
-
-	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName
-	protected function channel_flow($args)
-	{
-		$this->calls[] = [__FUNCTION__] + \get_defined_vars();
-		parent::channel_flow($args);
-	}
+	// the protected frame handlers (channel_alert, channel_close, channel_flow, basic_return) are not overridden,
+	// because php-amqplib has typed their signatures and the mock would have to be tied to a single version
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName
 	public function exchange_declare(
@@ -304,16 +286,6 @@ class ChannelMock extends \Kdyby\RabbitMq\Channel
 	{
 		$this->calls[] = [__FUNCTION__] + \get_defined_vars();
 		parent::basic_reject($deliveryTag, $requeue);
-	}
-
-	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName
-	protected function basic_return(
-		$args,
-		$msg
-	)
-	{
-		$this->calls[] = [__FUNCTION__] + \get_defined_vars();
-		return parent::basic_return($args, $msg);
 	}
 
 	// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint,PSR1.Methods.CamelCapsMethodName

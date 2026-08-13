@@ -1,7 +1,3 @@
 parameters:
-	ignoreErrors:
-
-	excludes_analyse:
-		- *src/Kdyby/RabbitMq/DI/ClassAliasMap.php
-
-
+	excludePaths:
+		- */src/Kdyby/RabbitMq/DI/ClassAliasMap.php

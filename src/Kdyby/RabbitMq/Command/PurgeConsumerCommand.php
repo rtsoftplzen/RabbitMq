@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(name: self::NAME, description: self::DESCRIPTION)]
 class PurgeConsumerCommand extends \Symfony\Component\Console\Command\Command
@@ -37,8 +38,14 @@ class PurgeConsumerCommand extends \Symfony\Component\Console\Command\Command
 		$noConfirmation = (bool) $input->getOption('no-confirmation');
 
 		if (!$noConfirmation && $input->isInteractive()) {
-			$confirmation = $this->getHelper('dialog')->askConfirmation($output, \sprintf('<question>Are you sure you wish to purge "%s" queue? (y/n)</question>', $input->getArgument('name')), FALSE);
-			if (!$confirmation) {
+			/** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
+			$helper = $this->getHelper('question');
+			$question = new ConfirmationQuestion(
+				\sprintf('<question>Are you sure you wish to purge "%s" queue? (y/n)</question>', $input->getArgument('name')),
+				FALSE
+			);
+
+			if (!$helper->ask($input, $output, $question)) {
 				$output->writeln('<error>Purging cancelled!</error>');
 
 				return 1;
